@@ -1,18 +1,18 @@
-import React from 'react';
-import {Button, Text} from 'react-native';
+// import React from 'react';
+// import {Button, Text} from 'react-native';
 
-function BreakTime(props) {
+// function BreakTime(props) {
     
-    return (
-        <section>
-            <button> Down </button>
-            <p> {props.breakTime} </p>
-            <button> Up </button>
+//     return (
+//         <section>
+//             <button> Down </button>
+//             <p> {props.breakTime} </p>
+//             <button> Up </button>
     
-        </section>
+//         </section>
     
     
-    );
-}
+//     );
+// }
 
-export default BreakTime;
+// export default BreakTime;
