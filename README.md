@@ -20,7 +20,7 @@ cd My-Pomodoro-App
 
 npm install
 
-expo start
+expo start or npm start
 
 # 🚀 Getting Started
 

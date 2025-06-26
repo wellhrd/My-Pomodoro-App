@@ -1,13 +1,8 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View, Button } from 'react-native';
-//import {vibrate} from './utils';
 import PropTypes from 'prop-types';
 import Timer from './Timer';
 import { FontAwesome } from '@expo/vector-icons';
-
-
-
-
 
 const BreakTime = props => {
     function decreaseCounter() {
@@ -26,13 +21,10 @@ const BreakTime = props => {
 
     return (
         <View style={styles.changeInterval}>
-
             <FontAwesome.Button style={{ paddingRight: 1 }} name="chevron-circle-down" onPress={decreaseCounter} />
             <Text style={styles.interval}> {props.breakTime} </Text>
             <FontAwesome.Button style={{ paddingRight: 1 }} name="chevron-circle-up" onPress={increaseCounter} />
-
         </View>
-
     );
 }
 
@@ -51,20 +43,15 @@ const FocusLength = props => {
         props.decreaseWork();
     }
 
-
     return (
         <View style={styles.changeInterval} >
-
             <FontAwesome.Button style={{ paddingRight: 1 }} name="chevron-circle-down" onPress={decreaseWork} />
             <Text style={styles.interval} > {props.focusLength} </Text>
             <FontAwesome.Button style={{ paddingRight: 1 }} name="chevron-circle-up" onPress={increaseWork} />
-
         </View>
     );
 }
 
-
-//What is shown to the user
 class App extends React.Component {
     constructor() {
         super();
@@ -74,24 +61,24 @@ class App extends React.Component {
             focusLength: 25,
             timerMinute: 25
         };
+        
         this.onIncreaseBreakLength = this.onIncreaseBreakLength.bind(this);
-
         this.onDecreaseBreakLength = this.onDecreaseBreakLength.bind(this);
-
         this.onIncreaseWorkLength = this.onIncreaseWorkLength.bind(this);
-
         this.onDecreaseWorkLength = this.onDecreaseWorkLength.bind(this);
-
         this.onToggleInterval = this.onToggleInterval.bind(this);
-
         this.onUpdateTimer = this.onUpdateTimer.bind(this);
-
-        //What does these do? There were commented out
-        //this.play = this.play.bind(this);
-        //this.decreaseTimer = this.decreaseTimer.bind(this);
+        this.onResetTimer = this.onResetTimer.bind(this);
+        
+        // Add methods to control timer
+        this.play = this.play.bind(this);
+        this.stop = this.stop.bind(this);
+        this.reset = this.reset.bind(this);
+        
+        // Create ref for Timer component
+        this.timerRef = React.createRef();
     }
 
-    //Change length of timers    
     onIncreaseBreakLength() {
         this.setState((prevState) => {
             return {
@@ -145,7 +132,6 @@ class App extends React.Component {
                 timerMinute: this.state.breakLength
             })
         }
-
     }
 
     onResetTimer() {
@@ -154,41 +140,29 @@ class App extends React.Component {
         })
     }
 
-    /*
-play () {
-   let intervalID = setInterval(this.decreaseTimer, 1000);
-   
-   this.setState ({
-       intervalID: intervalID
-   })
-} 
-   
-decreaseTimer () {
-   switch (this.state.timerSecond) {
-       case 0:
-           this.props.updateTimer()
-           this.setState ({
-               timerSecond: 59
-       })
-           break;
-           default:
-               this.setState((prevState) => {
-                   return {
-                       timerSecond: prevState.timerSecond - 1
-                   }
-               })
-           break;
-   }
-}    
-       */
-      
+    // Timer control methods that delegate to Timer component
+    play() {
+        if (this.timerRef.current) {
+            this.timerRef.current.play();
+        }
+    }
 
+    stop() {
+        if (this.timerRef.current) {
+            this.timerRef.current.stop();
+        }
+    }
 
-    //What is shown to the user
+    reset() {
+        if (this.timerRef.current) {
+            this.timerRef.current.reset();
+        }
+        this.onResetTimer(); // Also reset the main timer state
+    }
+
     render() {
         return (
             <View style={styles.container}>
-
                 <Image source={require('./assets/stopwatchTimer.png')} style={styles.logo} />
 
                 <Text style={{ color: '#888', fontSize: 20, textDecorationLine: 'underline', fontWeight: 'bold', marginBottom: 4, textAlign: 'center' }}>
@@ -206,9 +180,14 @@ decreaseTimer () {
                     <FocusLength focusLength={this.state.focusLength} increaseWork={this.onIncreaseWorkLength} decreaseWork={this.onDecreaseWorkLength} />
                 </View>
 
-              
-                <Timer timerMinute={this.state.timerMinute} breakLength={this.state.breakLength} updateTimer={this.onUpdateTimer} toggleInterval={this.onToggleInterval} />
-               
+                <Timer 
+                    ref={this.timerRef}
+                    timerMinute={this.state.timerMinute} 
+                    breakLength={this.state.breakLength} 
+                    updateTimer={this.onUpdateTimer} 
+                    toggleInterval={this.onToggleInterval}
+                    resetTimer={this.onResetTimer} 
+                />
 
                 {/* Controls Section */}
                 <View style={styles.controls} >
@@ -216,17 +195,13 @@ decreaseTimer () {
                     <FontAwesome.Button name="stop-circle" style={{ paddingRight: 1, backgroundColor: '#ffc40c' }} onPress={this.stop} />
                     <FontAwesome.Button name="refresh" style={{ backgroundColor: '#d90429', paddingRight: 1 }} onPress={this.reset} />
                 </View>
-
             </View>
         );
-
     }
 }
 
 export default App;
 
-
-//Personal Styles to render in app
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -263,15 +238,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     controls: {
-        //flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         marginTop: 30,
-        //paddingBottom: 8,
-        //marginBottom: 8,
-        //textAlign: 'center',
     },
-
 });
-
-
