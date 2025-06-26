@@ -1,7 +1,7 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View, Button } from 'react-native';
-import PropTypes from 'prop-types';
-import Timer from './Timer';
+import { Image, StyleSheet, Text, View } from 'react-native';
+//import PropTypes from 'prop-types';
+import Timer from './components/Timer';
 import { FontAwesome } from '@expo/vector-icons';
 
 const BreakTime = props => {
