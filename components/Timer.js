@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Vibration } from 'react-native';
+import { View, Text, Vibration, Platform } from 'react-native';
 
 class Timer extends React.Component {
     constructor() {
@@ -122,3 +122,140 @@ class Timer extends React.Component {
 }
 
 export default Timer;
+
+//last working for web 
+// import React from 'react';
+// import { View, Text } from 'react-native';
+
+// class Timer extends React.Component {
+//     constructor() {
+//         super();
+//         this.state = {
+//             isSession: true,
+//             timerSecond: 0,
+//             intervalID: null
+//         };
+//         this.play = this.play.bind(this);
+//         this.decreaseTimer = this.decreaseTimer.bind(this);
+//         this.stop = this.stop.bind(this);
+//         this.reset = this.reset.bind(this);
+//     }
+
+//    componentWillUnmount() {
+//         console.log('Timer unmounting, clearing interval');
+//         if (this.state.intervalID) {
+//             clearInterval(this.state.intervalID);
+//         }
+//     }
+
+//     play() {
+//         // Clear any existing interval first
+//         if (this.state.intervalID) {
+//             clearInterval(this.state.intervalID);
+//         }
+//         let intervalID = setInterval(this.decreaseTimer, 1000);
+//         this.setState({
+//             intervalID: intervalID
+//         });
+//     }
+
+//     decreaseTimer() {
+//         switch (this.state.timerSecond) {
+//             case 0:
+//                 if (this.props.timerMinute === 0) {
+//                     // Timer finished - handle vibration and switch between session and break
+//                     if (this.state.isSession) {
+//                         // Focus session ended, switching to break
+//                         console.log("Focus session completed! Starting break.");
+//                         this.setState({
+//                             isSession: false
+//                         });
+//                         this.props.toggleInterval(false);
+//                     } else {
+//                         // Break ended, switching to focus
+//                         console.log("Break completed! Starting focus session.");
+//                         this.setState({
+//                             isSession: true
+//                         });
+//                         this.props.toggleInterval(true);
+//                     }
+//                 } else {
+//                     // Decrement minute and reset seconds
+//                     this.props.updateTimer();
+//                 }
+//                 this.setState({
+//                     timerSecond: 59
+//                 });
+//                 break;
+//             default:
+//                 this.setState((prevState) => {
+//                     return {
+//                         timerSecond: prevState.timerSecond - 1
+//                     }
+//                 });
+//                 break;
+//         }
+//     }
+
+//     stop() {
+//         clearInterval(this.state.intervalID);
+//         this.setState({
+//             intervalID: null 
+//         });
+//     }
+
+//     reset() {
+//         this.stop();
+//         if (this.props.resetTimer) {
+//             this.props.resetTimer();
+//         }
+//         this.setState({
+//             timerSecond: 0,
+//             isSession: true
+//         });
+//     }
+
+//     // Method to format time display
+//     formatTime(time) {
+//         return time < 10 ? "0" + time : time.toString();
+//     }
+
+//     render() {
+//         // Dynamic styling based on session type
+//         const sessionColor = this.state.isSession ? '#BB9F06' : '#28a745';
+//         const borderColor = this.state.isSession ? '#888' : '#28a745';
+        
+//         return (
+//             <View style={{
+//                 flexDirection: 'row',
+//                 marginTop: 40,
+//                 marginBottom: 10,
+//                 borderWidth: 2,
+//                 borderRadius: 10,
+//                 padding: 8,
+//                 borderColor: borderColor,
+//                 alignSelf: 'center',
+//                 backgroundColor: this.state.isSession ? '#fff' : '#f8f9fa'
+//             }}>
+//                 <Text style={{
+//                     fontSize: 20,
+//                     fontWeight: 'bold',
+//                     color: sessionColor,
+//                     marginTop: 3,
+//                     marginRight: 10
+//                 }}>
+//                     {this.state.isSession ? "FOCUS" : "BREAK"}
+//                 </Text>
+//                 <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
+//                     {this.formatTime(this.props.timerMinute)}
+//                 </Text>
+//                 <Text style={{ fontSize: 25, fontWeight: 'bold' }}> : </Text>
+//                 <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
+//                     {this.formatTime(this.state.timerSecond)}
+//                 </Text>
+//             </View>
+//         );
+//     }
+// }
+
+// export default Timer;
