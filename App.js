@@ -61,7 +61,7 @@
 //             focusLength: 25,
 //             timerMinute: 25
 //         };
-        
+
 //         this.onIncreaseBreakLength = this.onIncreaseBreakLength.bind(this);
 //         this.onDecreaseBreakLength = this.onDecreaseBreakLength.bind(this);
 //         this.onIncreaseWorkLength = this.onIncreaseWorkLength.bind(this);
@@ -69,12 +69,12 @@
 //         this.onToggleInterval = this.onToggleInterval.bind(this);
 //         this.onUpdateTimer = this.onUpdateTimer.bind(this);
 //         this.onResetTimer = this.onResetTimer.bind(this);
-        
+
 //         // Add methods to control timer
 //         this.play = this.play.bind(this);
 //         this.stop = this.stop.bind(this);
 //         this.reset = this.reset.bind(this);
-        
+
 //         // Create ref for Timer component
 //         this.timerRef = React.createRef();
 //     }
@@ -252,7 +252,7 @@
 
 
 import React from 'react';
-import { Button, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { SafeAreaView, Button, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Timer from './components/Timer';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -321,7 +321,7 @@ class App extends React.Component {
             focusLength: 25,
             timerMinute: 25
         };
-        
+
         this.onIncreaseBreakLength = this.onIncreaseBreakLength.bind(this);
         this.onDecreaseBreakLength = this.onDecreaseBreakLength.bind(this);
         this.onIncreaseWorkLength = this.onIncreaseWorkLength.bind(this);
@@ -329,11 +329,11 @@ class App extends React.Component {
         this.onToggleInterval = this.onToggleInterval.bind(this);
         this.onUpdateTimer = this.onUpdateTimer.bind(this);
         this.onResetTimer = this.onResetTimer.bind(this);
-        
+
         this.play = this.play.bind(this);
         this.stop = this.stop.bind(this);
         this.reset = this.reset.bind(this);
-        
+
         this.timerRef = React.createRef();
     }
 
@@ -419,40 +419,40 @@ class App extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <Image source={require('./assets/stopwatchTimer.png')} style={styles.logo} />
 
                 <Text style={styles.title}>
-                    🍅 POMODORO FOCUS ! 
+                    🍅 POMODORO FOCUS !
                 </Text>
 
                 {/* Break length Section */}
                 <View style={styles.section}>
                     <Text style={styles.timeHeader}>Break Length in Minutes:</Text>
-                    <BreakTime 
-                        breakTime={this.state.breakLength} 
-                        increaseBreak={this.onIncreaseBreakLength} 
-                        decreaseBreak={this.onDecreaseBreakLength} 
+                    <BreakTime
+                        breakTime={this.state.breakLength}
+                        increaseBreak={this.onIncreaseBreakLength}
+                        decreaseBreak={this.onDecreaseBreakLength}
                     />
                 </View>
 
                 {/* Work length Section */}
                 <View style={styles.section}>
                     <Text style={styles.timeHeader}>Work Length in Minutes:</Text>
-                    <FocusLength 
-                        focusLength={this.state.focusLength} 
-                        increaseWork={this.onIncreaseWorkLength} 
-                        decreaseWork={this.onDecreaseWorkLength} 
+                    <FocusLength
+                        focusLength={this.state.focusLength}
+                        increaseWork={this.onIncreaseWorkLength}
+                        decreaseWork={this.onDecreaseWorkLength}
                     />
                 </View>
 
-                <Timer 
+                <Timer
                     ref={this.timerRef}
-                    timerMinute={this.state.timerMinute} 
-                    breakLength={this.state.breakLength} 
-                    updateTimer={this.onUpdateTimer} 
+                    timerMinute={this.state.timerMinute}
+                    breakLength={this.state.breakLength}
+                    updateTimer={this.onUpdateTimer}
                     toggleInterval={this.onToggleInterval}
-                    resetTimer={this.onResetTimer} 
+                    resetTimer={this.onResetTimer}
                 />
 
                 {/* Controls Section */}
@@ -467,7 +467,7 @@ class App extends React.Component {
                         <FontAwesome name="refresh" size={40} color="white" />
                     </TouchableOpacity>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }
@@ -479,7 +479,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        paddingTop: 50,
+        paddingTop: 10,
     },
     logo: {
         width: 250,
