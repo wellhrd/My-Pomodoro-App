@@ -252,7 +252,8 @@
 
 
 import React from 'react';
-import { SafeAreaView, Button, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Button, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Timer from './components/Timer';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -419,55 +420,57 @@ class App extends React.Component {
 
     render() {
         return (
-            <SafeAreaView style={styles.container}>
-                <Image source={require('./assets/stopwatchTimer.png')} style={styles.logo} />
+            <SafeAreaProvider>
+                <SafeAreaView style={styles.container}>
+                    <Image source={require('./assets/stopwatchTimer.png')} style={styles.logo} />
 
-                <Text style={styles.title}>
-                    🍅 POMODORO FOCUS !
-                </Text>
+                    <Text style={styles.title}>
+                        🍅 POMODORO FOCUS !
+                    </Text>
 
-                {/* Break length Section */}
-                <View style={styles.section}>
-                    <Text style={styles.timeHeader}>Break Length in Minutes:</Text>
-                    <BreakTime
-                        breakTime={this.state.breakLength}
-                        increaseBreak={this.onIncreaseBreakLength}
-                        decreaseBreak={this.onDecreaseBreakLength}
+                    {/* Break length Section */}
+                    <View style={styles.section}>
+                        <Text style={styles.timeHeader}>Break Length in Minutes:</Text>
+                        <BreakTime
+                            breakTime={this.state.breakLength}
+                            increaseBreak={this.onIncreaseBreakLength}
+                            decreaseBreak={this.onDecreaseBreakLength}
+                        />
+                    </View>
+
+                    {/* Work length Section */}
+                    <View style={styles.section}>
+                        <Text style={styles.timeHeader}>Work Length in Minutes:</Text>
+                        <FocusLength
+                            focusLength={this.state.focusLength}
+                            increaseWork={this.onIncreaseWorkLength}
+                            decreaseWork={this.onDecreaseWorkLength}
+                        />
+                    </View>
+
+                    <Timer
+                        ref={this.timerRef}
+                        timerMinute={this.state.timerMinute}
+                        breakLength={this.state.breakLength}
+                        updateTimer={this.onUpdateTimer}
+                        toggleInterval={this.onToggleInterval}
+                        resetTimer={this.onResetTimer}
                     />
-                </View>
 
-                {/* Work length Section */}
-                <View style={styles.section}>
-                    <Text style={styles.timeHeader}>Work Length in Minutes:</Text>
-                    <FocusLength
-                        focusLength={this.state.focusLength}
-                        increaseWork={this.onIncreaseWorkLength}
-                        decreaseWork={this.onDecreaseWorkLength}
-                    />
-                </View>
-
-                <Timer
-                    ref={this.timerRef}
-                    timerMinute={this.state.timerMinute}
-                    breakLength={this.state.breakLength}
-                    updateTimer={this.onUpdateTimer}
-                    toggleInterval={this.onToggleInterval}
-                    resetTimer={this.onResetTimer}
-                />
-
-                {/* Controls Section */}
-                <View style={styles.controls}>
-                    <TouchableOpacity style={[styles.controlButton, styles.playButton]} onPress={this.play}>
-                        <FontAwesome name="play-circle" size={40} color="white" />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.controlButton, styles.stopButton]} onPress={this.stop}>
-                        <FontAwesome name="stop-circle" size={40} color="white" />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.controlButton, styles.resetButton]} onPress={this.reset}>
-                        <FontAwesome name="refresh" size={40} color="white" />
-                    </TouchableOpacity>
-                </View>
-            </SafeAreaView>
+                    {/* Controls Section */}
+                    <View style={styles.controls}>
+                        <TouchableOpacity style={[styles.controlButton, styles.playButton]} onPress={this.play}>
+                            <FontAwesome name="play-circle" size={40} color="white" />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.controlButton, styles.stopButton]} onPress={this.stop}>
+                            <FontAwesome name="stop-circle" size={40} color="white" />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.controlButton, styles.resetButton]} onPress={this.reset}>
+                            <FontAwesome name="refresh" size={40} color="white" />
+                        </TouchableOpacity>
+                    </View>
+                </SafeAreaView>
+            </SafeAreaProvider>
         );
     }
 }
@@ -479,7 +482,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        paddingTop: 10,
+        paddingBottom: 30,
     },
     logo: {
         width: 250,
